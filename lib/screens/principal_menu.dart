@@ -175,9 +175,8 @@ class SecondPage extends StatelessWidget {
             TextButton(
               child: const Text('Salir'),
               onPressed: () {
-                Navigator.of(context).pop();
-                // Aquí puedes agregar la lógica para salir de la app
-                _showSnackBar(context, 'Saliendo de la aplicación...');
+                Navigator.of(context).pop(); // Cierra el diálogo
+                Navigator.of(context).pop(); // Regresa a la pantalla anterior
               },
             ),
           ],
