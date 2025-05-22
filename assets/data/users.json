@@ -1,0 +1,37 @@
+[
+  {
+    "nombre": "Juan",
+    "apellidos": "Pérez García",
+    "edad": 25,
+    "usuario": "juan.perez",
+    "contrasena": "123456"
+  },
+  {
+    "nombre": "María",
+    "apellidos": "González López",
+    "edad": 30,
+    "usuario": "maria.gonzalez",
+    "contrasena": "password123"
+  },
+  {
+    "nombre": "Admin",
+    "apellidos": "Sistema",
+    "edad": 35,
+    "usuario": "admin",
+    "contrasena": "admin123"
+  },
+  {
+    "nombre": "Ana",
+    "apellidos": "Martínez Ruiz",
+    "edad": 28,
+    "usuario": "ana.martinez",
+    "contrasena": "ana2024"
+  },
+  {
+    "nombre": "Carlos",
+    "apellidos": "López Fernández",
+    "edad": 32,
+    "usuario": "carlos.lopez",
+    "contrasena": "carlos123"
+  }
+]
