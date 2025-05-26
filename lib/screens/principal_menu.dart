@@ -1,4 +1,8 @@
+import 'package:conextea/screens/calendar_page.dart';
 import 'package:flutter/material.dart';
+import 'achievements_page.dart';
+import 'calendar_page.dart';
+
 
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
@@ -132,10 +136,14 @@ class SecondPage extends StatelessWidget {
         _showSnackBar(context, 'Navegando a Mensajes');
         break;
       case 'Calendario':
-        _showSnackBar(context, 'Navegando a Calendario');
+        Navigator.push(context, 
+        MaterialPageRoute(builder: (context) => const CalendarPage()),
+        );//Navigator -> achievements_page.dart
         break;
       case 'Logros':
-        _showSnackBar(context, 'Navegando a Logros');
+        Navigator.push(context, 
+        MaterialPageRoute(builder: (context) => const AchievementsPage()),
+        );//Navigator -> achievements_page.dart
         break;
       case 'Perfil':
         _showSnackBar(context, 'Navegando a Perfil');

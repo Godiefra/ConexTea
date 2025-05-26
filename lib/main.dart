@@ -209,13 +209,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 );
               }
-              
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               }
-              
               final users = snapshot.data ?? [];
-              
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
