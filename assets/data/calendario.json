@@ -1,0 +1,275 @@
+{
+  "juan.perez": {
+    "eventos": [
+      {
+        "id": "1",
+        "titulo": "Desayuno",
+        "descripcion": "Desayuno familiar",
+        "fecha": "2025-04-07",
+        "horaInicio": "08:00",
+        "horaFin": "08:45",
+        "ubicacion": "Cocina",
+        "color": "#FFE4B5",
+        "tipo": "comida",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes"]
+        }
+      },
+      {
+        "id": "2",
+        "titulo": "Escuela: Clase de matemáticas",
+        "descripcion": "Clase de matemáticas básicas",
+        "fecha": "2025-04-07",
+        "horaInicio": "09:30",
+        "horaFin": "10:30",
+        "ubicacion": "Aula principal 🎭",
+        "color": "#B8E6B8",
+        "tipo": "educacion",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["lunes", "miercoles", "viernes"]
+        }
+      },
+      {
+        "id": "3",
+        "titulo": "Escuela: Clase de lectura",
+        "descripcion": "Práctica de lectura y comprensión",
+        "fecha": "2025-04-07",
+        "horaInicio": "10:30",
+        "horaFin": "11:45",
+        "ubicacion": "Biblioteca",
+        "color": "#B8E6B8",
+        "tipo": "educacion",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["lunes", "martes", "jueves"]
+        }
+      },
+      {
+        "id": "4",
+        "titulo": "Almuerzo",
+        "descripcion": "Hora del almuerzo",
+        "fecha": "2025-04-07",
+        "horaInicio": "12:00",
+        "horaFin": "12:45",
+        "ubicacion": "Comedor",
+        "color": "#FFE4B5",
+        "tipo": "comida",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]
+        }
+      },
+      {
+        "id": "5",
+        "titulo": "Tiempo libre",
+        "descripcion": "Tiempo de juego y descanso",
+        "fecha": "2025-04-07",
+        "horaInicio": "14:00",
+        "horaFin": "15:00",
+        "ubicacion": "Patio 😊",
+        "color": "#D8BFD8",
+        "tipo": "recreacion",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes"]
+        }
+      },
+      {
+        "id": "6",
+        "titulo": "Terapia ocupacional",
+        "descripcion": "Sesión de terapia ocupacional",
+        "fecha": "2025-04-08",
+        "horaInicio": "09:00",
+        "horaFin": "10:00",
+        "ubicacion": "Sala de terapia",
+        "color": "#FFB6C1",
+        "tipo": "terapia",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["martes", "jueves"]
+        }
+      },
+      {
+        "id": "7",
+        "titulo": "Escuela: Arte",
+        "descripcion": "Clase de arte y manualidades",
+        "fecha": "2025-04-08",
+        "horaInicio": "10:30",
+        "horaFin": "11:30",
+        "ubicacion": "Taller de arte",
+        "color": "#B8E6B8",
+        "tipo": "educacion",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["martes"]
+        }
+      },
+      {
+        "id": "8",
+        "titulo": "Música",
+        "descripcion": "Clase de música y canto",
+        "fecha": "2025-04-09",
+        "horaInicio": "15:00",
+        "horaFin": "16:00",
+        "ubicacion": "Sala de música",
+        "color": "#FFB6C1",
+        "tipo": "educacion",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["miercoles"]
+        }
+      }
+    ],
+    "configuracion": {
+      "horaInicioDia": "07:00",
+      "horaFinDia": "20:00",
+      "notificacionesActivas": true,
+      "recordatorioMinutos": 15,
+      "vistaPorDefecto": "dia"
+    }
+  },
+  "maria.gonzalez": {
+    "eventos": [
+      {
+        "id": "1",
+        "titulo": "Desayuno",
+        "descripcion": "Desayuno nutritivo",
+        "fecha": "2025-04-07",
+        "horaInicio": "07:30",
+        "horaFin": "08:15",
+        "ubicacion": "Cocina",
+        "color": "#FFE4B5",
+        "tipo": "comida",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes"]
+        }
+      },
+      {
+        "id": "2",
+        "titulo": "Trabajo: Reunión matutina",
+        "descripcion": "Reunión de equipo",
+        "fecha": "2025-04-07",
+        "horaInicio": "09:00",
+        "horaFin": "10:00",
+        "ubicacion": "Oficina principal",
+        "color": "#87CEEB",
+        "tipo": "trabajo",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["lunes", "miercoles", "viernes"]
+        }
+      },
+      {
+        "id": "3",
+        "titulo": "Almuerzo",
+        "descripcion": "Pausa para almorzar",
+        "fecha": "2025-04-07",
+        "horaInicio": "13:00",
+        "horaFin": "14:00",
+        "ubicacion": "Cafetería",
+        "color": "#FFE4B5",
+        "tipo": "comida",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes"]
+        }
+      },
+      {
+        "id": "4",
+        "titulo": "Ejercicio",
+        "descripcion": "Rutina de ejercicios",
+        "fecha": "2025-04-07",
+        "horaInicio": "18:00",
+        "horaFin": "19:00",
+        "ubicacion": "Gimnasio",
+        "color": "#98FB98",
+        "tipo": "salud",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["lunes", "miercoles", "viernes"]
+        }
+      }
+    ],
+    "configuracion": {
+      "horaInicioDia": "06:00",
+      "horaFinDia": "22:00",
+      "notificacionesActivas": true,
+      "recordatorioMinutos": 10,
+      "vistaPorDefecto": "semana"
+    }
+  },
+  "admin": {
+    "eventos": [
+      {
+        "id": "1",
+        "titulo": "Revisión del sistema",
+        "descripcion": "Revisión diaria del sistema",
+        "fecha": "2025-04-07",
+        "horaInicio": "08:00",
+        "horaFin": "09:00",
+        "ubicacion": "Oficina de sistemas",
+        "color": "#FFA07A",
+        "tipo": "administracion",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes"]
+        }
+      },
+      {
+        "id": "2",
+        "titulo": "Reunión de coordinación",
+        "descripcion": "Reunión con coordinadores",
+        "fecha": "2025-04-07",
+        "horaInicio": "10:00",
+        "horaFin": "11:30",
+        "ubicacion": "Sala de juntas",
+        "color": "#DDA0DD",
+        "tipo": "reunion",
+        "recurrente": {
+          "activo": true,
+          "patron": "semanal",
+          "diasSemana": ["lunes"]
+        }
+      },
+      {
+        "id": "3",
+        "titulo": "Supervisión general",
+        "descripcion": "Supervisión de actividades",
+        "fecha": "2025-04-07",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "ubicacion": "Recorrido general",
+        "color": "#F0E68C",
+        "tipo": "supervision",
+        "recurrente": {
+          "activo": true,
+          "patron": "diario",
+          "diasSemana": ["lunes", "martes", "miercoles", "jueves", "viernes"]
+        }
+      }
+    ],
+    "configuracion": {
+      "horaInicioDia": "07:00",
+      "horaFinDia": "18:00",
+      "notificacionesActivas": true,
+      "recordatorioMinutos": 5,
+      "vistaPorDefecto": "semana"
+    }
+  }
+}

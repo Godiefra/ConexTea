@@ -1,8 +1,6 @@
 import 'package:conextea/screens/calendar_page.dart';
 import 'package:flutter/material.dart';
 import 'achievements_page.dart';
-import 'calendar_page.dart';
-
 
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
@@ -26,47 +24,53 @@ class SecondPage extends StatelessWidget {
       backgroundColor: const Color(0xFFE8F4FD), // Fondo azul claro
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: GridView.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-          childAspectRatio: 1.1,
+        child: Column(
           children: [
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
+                childAspectRatio: 0.85,
+                children: [
             _buildOptionCard(
               context,
               'Mensaje',
-              Icons.tablet_android,
+              'assets/images/mensaje.png',
               const Color(0xFF4A90E2),
             ),
             _buildOptionCard(
               context,
               'Calendario',
-              Icons.calendar_today,
+              'assets/images/calendario.png',
               const Color(0xFF4A90E2),
             ),
             _buildOptionCard(
               context,
               'Logros',
-              Icons.emoji_events,
+              'assets/images/logros.png',
               const Color(0xFF4A90E2),
             ),
             _buildOptionCard(
               context,
               'Perfil',
-              Icons.person,
+              'assets/images/perfil.png',
               const Color(0xFF4A90E2),
             ),
             _buildOptionCard(
               context,
               'Ayuda',
-              Icons.help_outline,
+              'assets/images/ayuda.png',
               const Color(0xFF4A90E2),
             ),
             _buildOptionCard(
               context,
               'Salir',
-              Icons.exit_to_app,
+              'assets/images/salir.png',
               const Color(0xFF4A90E2),
+            ),
+                ],
+              ),
             ),
           ],
         ),
@@ -74,7 +78,7 @@ class SecondPage extends StatelessWidget {
     );
   }
 
-  Widget _buildOptionCard(BuildContext context, String title, IconData icon, Color color) {
+  Widget _buildOptionCard(BuildContext context, String title, String imagePath, Color color) {
     return GestureDetector(
       onTap: () {
         // Aquí puedes agregar la navegación específica para cada opción
@@ -99,17 +103,25 @@ class SecondPage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
               ),
-              child: Icon(
-                icon,
-                size: 48,
-                color: Colors.black87,
+              child: Image.asset(
+                imagePath,
+                width: 256,
+                height: 256,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(
+                    Icons.image_not_supported,
+                    size: 50,
+                    color: const Color.fromARGB(255, 97, 97, 97),
+                  );
+                },
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(20),
@@ -118,7 +130,7 @@ class SecondPage extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 28,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -137,7 +149,7 @@ class SecondPage extends StatelessWidget {
         break;
       case 'Calendario':
         Navigator.push(context, 
-        MaterialPageRoute(builder: (context) => const CalendarPage()),
+        MaterialPageRoute(builder: (context) => CalendarPage()),
         );//Navigator -> achievements_page.dart
         break;
       case 'Logros':
