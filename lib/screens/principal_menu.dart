@@ -1,4 +1,5 @@
 import 'package:conextea/screens/calendar_page.dart';
+import 'package:conextea/screens/message_page.dart';
 import 'package:flutter/material.dart';
 import 'achievements_page.dart';
 
@@ -145,7 +146,9 @@ class SecondPage extends StatelessWidget {
     // Manejo de las diferentes opciones
     switch (option) {
       case 'Mensaje':
-        _showSnackBar(context, 'Navegando a Mensajes');
+        Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const MessagePage()),
+        ); // Navigator -> message_page.dart  
         break;
       case 'Calendario':
         Navigator.push(context, 
