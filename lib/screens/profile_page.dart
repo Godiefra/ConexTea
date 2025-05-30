@@ -234,19 +234,35 @@ class _SecondPageState extends State<SecondPage> {
   }
 
   Widget _buildDateField(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: Color(0xFF4A90E2),
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        label,
+        style: const TextStyle(
+          color: Color(0xFF4A90E2),
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
         ),
-        const SizedBox(height: 8),
-        Container(
+      ),
+      const SizedBox(height: 8),
+      GestureDetector(
+        onTap: () async {
+          DateTime? pickedDate = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1900),
+            lastDate: DateTime.now(),
+          );
+          if (pickedDate != null) {
+            setState(() {
+              selectedDate = '${pickedDate.day.toString().padLeft(2, '0')}/'
+                  '${pickedDate.month.toString().padLeft(2, '0')}/'
+                  '${pickedDate.year}';
+            });
+          }
+        },
+        child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
           decoration: BoxDecoration(
@@ -258,7 +274,7 @@ class _SecondPageState extends State<SecondPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                value,
+                selectedDate,
                 style: const TextStyle(
                   color: Colors.black87,
                   fontSize: 14,
@@ -271,50 +287,64 @@ class _SecondPageState extends State<SecondPage> {
             ],
           ),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
 
   Widget _buildThemeOption(String themeName, Color color) {
-    bool isSelected = selectedTheme == themeName;
-    
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedTheme = themeName;
-        });
-      },
-      child: Column(
-        children: [
-          Container(
-            width: 80,
-            height: 140,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(15),
-              border: isSelected 
+  bool isSelected = selectedTheme == themeName;
+
+  return GestureDetector(
+    onTap: () {
+      setState(() {
+        selectedTheme = themeName;
+        switch (themeName) {
+          case 'Claro':
+            selectedDate = '23/05/1995';
+            break;
+          case 'Contraste':
+            selectedDate = '01/01/2000';
+            break;
+          case 'Oscuro':
+            selectedDate = '31/12/2010';
+            break;
+        }
+      });
+    },
+    child: Column(
+      children: [
+        Container(
+          width: 80,
+          height: 140,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(15),
+            border: isSelected
                 ? Border.all(color: Colors.white, width: 3)
                 : null,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          Text(
-            themeName,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          themeName,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 }
