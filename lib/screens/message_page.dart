@@ -50,7 +50,7 @@ class _MessagePageState extends State<MessagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF4FC3F7),
+        backgroundColor: const Color(0xFF4A90E2),
         title: const Text(
           'ConexTEA - Sistema de Mensajería',
           style: TextStyle(

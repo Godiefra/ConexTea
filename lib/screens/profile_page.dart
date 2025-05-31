@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SecondPage extends StatefulWidget {
-  const SecondPage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<SecondPage> createState() => _SecondPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _SecondPageState extends State<SecondPage> {
+class _ProfilePageState extends State<ProfilePage> {
   String selectedTheme = 'Claro';
   String selectedDate = '23/05/1995';
 

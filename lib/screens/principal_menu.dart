@@ -2,6 +2,8 @@ import 'package:conextea/screens/calendar_page.dart';
 import 'package:conextea/screens/message_page.dart';
 import 'package:flutter/material.dart';
 import 'achievements_page.dart';
+import 'package:conextea/screens/profile_page.dart';
+import 'package:conextea/screens/achievements_page.dart';
 
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
@@ -161,7 +163,9 @@ class SecondPage extends StatelessWidget {
         );//Navigator -> achievements_page.dart
         break;
       case 'Perfil':
-        _showSnackBar(context, 'Navegando a Perfil');
+        Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ProfilePage()),
+        ); // Navigator -> profile_page.dart
         break;
       case 'Ayuda':
         _showSnackBar(context, 'Navegando a Ayuda');
