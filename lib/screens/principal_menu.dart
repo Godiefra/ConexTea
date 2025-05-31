@@ -3,7 +3,6 @@ import 'package:conextea/screens/message_page.dart';
 import 'package:flutter/material.dart';
 import 'achievements_page.dart';
 import 'package:conextea/screens/profile_page.dart';
-import 'package:conextea/screens/achievements_page.dart';
 
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
