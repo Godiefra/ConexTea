@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'screens/principal_menu.dart';
 import 'dart:convert';
 
@@ -8,6 +10,7 @@ class User {
   final String nombre;
   final String apellidos;
   final int edad;
+  final String fechanacimiento;
   final String usuario;
   final String contrasena;
 
@@ -15,6 +18,7 @@ class User {
     required this.nombre,
     required this.apellidos,
     required this.edad,
+    required this.fechanacimiento,
     required this.usuario,
     required this.contrasena,
   });
@@ -23,6 +27,7 @@ class User {
     return User(
       nombre: json['nombre'],
       apellidos: json['apellidos'],
+      fechanacimiento: json['fechanacimiento'],
       edad: json['edad'],
       usuario: json['usuario'],
       contrasena: json['contrasena'],
@@ -38,37 +43,76 @@ class User {
       'contrasena': contrasena,
     };
   }
+
+  // Método útil para obtener el nombre completo
+  String get nombreCompleto => '$nombre $apellidos';
 }
 
+// 2. Nuevo: AuthProvider para manejar el estado global del usuario
+class AuthProvider extends ChangeNotifier {
+  User? _currentUser;
+  bool _isAuthenticated = false;
 
+  // Getters
+  User? get currentUser => _currentUser;
+  bool get isAuthenticated => _isAuthenticated;
+  String get userName => _currentUser?.nombre ?? '';
+  String get userLastName => _currentUser?.apellidos ?? '';
+  int get userAge => _currentUser?.edad ?? 0;
+  String get userBirthDate => _currentUser?.fechanacimiento ?? '';
+  String get userFullName => _currentUser?.nombreCompleto ?? '';
+  String get userLogin => _currentUser?.usuario ?? '';
 
+  // Método para hacer login
+  Future<bool> login(String usuario, String contrasena) async {
+    try {
+      final user = await AuthService.validateLogin(usuario, contrasena);
+      if (user != null) {
+        _currentUser = user;
+        _isAuthenticated = true;
+        notifyListeners(); // Notifica a todos los widgets que escuchan
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 
-// Servicio de autenticación
+  // Método para hacer logout
+  void logout() {
+    _currentUser = null;
+    _isAuthenticated = false;
+    notifyListeners();
+  }
+
+  // Método para actualizar datos del usuario si es necesario
+  void updateUser(User newUser) {
+    _currentUser = newUser;
+    notifyListeners();
+  }
+}
+
+// Servicio de autenticación (sin cambios)
 class AuthService {
   static List<User>? _users;
   
-  // Cargar usuarios desde el archivo JSON
   static Future<List<User>> loadUsers() async {
     if (_users != null) {
-      return _users!; // Retorna cache si ya está cargado
+      return _users!;
     }
     
     try {
-      // Leer el archivo JSON desde assets
       final String jsonString = await rootBundle.loadString('assets/data/users.json');
       final List<dynamic> jsonList = json.decode(jsonString);
-      
-      // Convertir a lista de usuarios
       _users = jsonList.map((userJson) => User.fromJson(userJson)).toList();
-      
       return _users!;
     } catch (e) {
-      print('Error al cargar usuarios: $e');
+      //print('Error al cargar usuarios: $e');
       return [];
     }
   }
 
-  // Validar credenciales de login
   static Future<User?> validateLogin(String usuario, String contrasena) async {
     final users = await loadUsers();
     
@@ -77,16 +121,14 @@ class AuthService {
         (user) => user.usuario == usuario && user.contrasena == contrasena,
       );
     } catch (e) {
-      return null; // Usuario no encontrado
+      return null;
     }
   }
 
-  // Obtener lista de usuarios para mostrar en ayuda
   static Future<List<User>> getUsers() async {
     return await loadUsers();
   }
 
-  // Limpiar cache (útil para testing)
   static void clearCache() {
     _users = null;
   }
@@ -96,22 +138,34 @@ void main() {
   runApp(const ConexTEAApp());
 }
 
+// 3. Modificación: Envolver la app con ChangeNotifierProvider
 class ConexTEAApp extends StatelessWidget {
   const ConexTEAApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color(0xFF3CA2E0),
-        scaffoldBackgroundColor: const Color(0xFFECF6FF),
+    return ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: const Color(0xFF3CA2E0),
+          scaffoldBackgroundColor: const Color(0xFFECF6FF),
+        ),
+        home: Consumer<AuthProvider>(
+          builder: (context, authProvider, child) {
+            // Si está autenticado, va al menú principal, sino al login
+            return authProvider.isAuthenticated 
+                ? SecondPage() 
+                : const LoginScreen();
+          },
+        ),
       ),
-      home: const LoginScreen(),
     );
   }
 }
 
+// 4. Modificación del LoginScreen para usar Provider
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -128,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
 
-  // Método para manejar el login
+  // Método modificado para usar Provider
   Future<void> _handleLogin() async {
     final usuario = _usuarioController.text.trim();
     final contrasena = _contrasenaController.text.trim();
@@ -143,20 +197,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final user = await AuthService.validateLogin(usuario, contrasena);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final loginSuccess = await authProvider.login(usuario, contrasena);
       
-      if (user != null) {
-        // Login exitoso
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SecondPage(),
-            ),
-          );
-        }
+      if (loginSuccess) {
+        // El Provider se encarga de la navegación automáticamente
+        // ya que el Consumer en ConexTEAApp detectará el cambio
       } else {
-        // Credenciales incorrectas
         _showErrorDialog('Usuario o contraseña incorrectos');
       }
     } catch (e) {
@@ -204,9 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox(
                   height: 100,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: Center(child: CircularProgressIndicator()),
                 );
               }
               if (snapshot.hasError) {
@@ -551,4 +596,3 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 }
-
