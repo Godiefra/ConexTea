@@ -3,6 +3,9 @@ import 'package:conextea/screens/message_page.dart';
 import 'package:flutter/material.dart';
 import 'achievements_page.dart';
 import 'package:conextea/screens/profile_page.dart';
+import 'package:provider/provider.dart';
+import '../main.dart';
+
 
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
@@ -170,8 +173,8 @@ class SecondPage extends StatelessWidget {
         _showSnackBar(context, 'Navegando a Ayuda');
         break;
       case 'Salir':
-        _showExitDialog(context);
-        break;
+        _showExitDialog(context); //
+        break;  
     }
   }
 
@@ -185,29 +188,42 @@ class SecondPage extends StatelessWidget {
   }
 
   void _showExitDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Salir'),
-          content: const Text('¿Estás seguro de que quieres salir?'),
-          actions: [
-            TextButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Salir'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo
-                Navigator.of(context).pop(); // Regresa a la pantalla anterior
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Cerrar Sesión'),
+            content: const Text('¿Estás seguro que deseas cerrar sesión?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Obtener el AuthProvider y hacer logout
+                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                  authProvider.logout();
+                  
+                  // Cerrar el diálogo
+                  Navigator.of(context).pop();
+                  
+                  // Opcional: Mostrar mensaje de confirmación
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Sesión cerrada exitosamente'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Cerrar Sesión',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
 }
