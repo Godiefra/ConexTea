@@ -170,7 +170,7 @@ class SecondPage extends StatelessWidget {
         ); // Navigator -> profile_page.dart
         break;
       case 'Ayuda':
-        _showSnackBar(context, 'Navegando a Ayuda');
+        _showSnackBar(context, 'A la espera del especialista');
         break;
       case 'Salir':
         _showExitDialog(context); //

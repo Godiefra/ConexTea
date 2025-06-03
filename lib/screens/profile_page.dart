@@ -321,41 +321,69 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // Diálogo para editar perfil (placeholder)
   void _showEditProfileDialog(BuildContext context, AuthProvider authProvider) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Modificar Perfil'),
-          content: const Text(
-            'Funcionalidad de edición de perfil.\n\n'
-            'Aquí podrías agregar formularios para editar:\n'
-            '• Nombre y apellidos\n'
-            '• Fecha de nacimiento\n'
-            '• Contraseña\n'
-            '• Foto de perfil',
+  final user = authProvider.currentUser!;
+  final nombreController = TextEditingController(text: user.nombre);
+  final apellidosController = TextEditingController(text: user.apellidos);
+  final fechaNacimientoController = TextEditingController(text: user.fechanacimiento);
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Modificar Perfil'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nombreController,
+                decoration: const InputDecoration(
+                  labelText: 'Nombre',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: apellidosController,
+                decoration: const InputDecoration(
+                  labelText: 'Apellidos',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: fechaNacimientoController,
+                decoration: const InputDecoration(
+                  labelText: 'Fecha de Nacimiento',
+                  hintText: 'YYYY-MM-DD',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cerrar'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Aquí implementarías la lógica de edición
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Funcionalidad por implementar'),
-                  ),
-                );
-              },
-              child: const Text('Guardar Cambios'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Cambios pendientes de confirmación'),
+                ),
+              );
+            },
+            child: const Text('Guardar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   Widget _buildFormField(String label, String value) {
     return Column(
