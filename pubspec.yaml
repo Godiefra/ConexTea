@@ -12,6 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   provider: ^6.1.5
+  flutter_tts: ^4.0.2
 
 
 

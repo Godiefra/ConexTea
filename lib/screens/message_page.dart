@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 /// Vista principal para crear y enviar mensajes
 class MessagePage extends StatefulWidget {
@@ -11,6 +12,10 @@ class MessagePage extends StatefulWidget {
 class _MessagePageState extends State<MessagePage> {
   // Categoría seleccionada actualmente  
   String selectedCategory = 'Emociones';
+
+  // Instancia de Flutter TTS
+  late FlutterTts flutterTts;
+  bool isSpeaking = false;
 
   /// Partes que componen el mensaje.
   ///  Cada parte lleva el texto y el color con el que debe mostrarse.
@@ -48,6 +53,16 @@ class _MessagePageState extends State<MessagePage> {
       {'emoji': '😐', 'label': 'Neutro'},
       {'emoji': '😠', 'label': 'Enfadado'},
     ],
+    'Verbos': [
+      {'emoji': '🙏', 'label': 'Quiero'},
+      {'emoji': '🤲', 'label': 'Necesito'},
+      {'emoji': '🤝', 'label': 'Tengo'},
+      {'emoji': '🙋', 'label': 'Puedo'},
+      {'emoji': '❌', 'label': 'No quiero'},
+      {'emoji': '🆘', 'label': 'Ayuda'},
+      {'emoji': '💭', 'label': 'Pienso'},
+      {'emoji': '🗣️', 'label': 'Digo'},
+    ],
   };
 
   @override
@@ -59,6 +74,81 @@ class _MessagePageState extends State<MessagePage> {
       {'text': 'QUIERO', 'color': const Color(0xFFB39DDB)},
       {'text': 'COMER', 'color': const Color(0xFFFFF59D)},
     ];
+    
+    // Inicializar TTS
+    _initTts();
+  }
+
+  @override
+  void dispose() {
+    flutterTts.stop();
+    super.dispose();
+  }
+
+  /// Inicializa el motor de texto a voz
+  void _initTts() {
+    flutterTts = FlutterTts();
+    
+    // Configurar idioma a español
+    flutterTts.setLanguage("es-ES");
+    
+    // Configurar velocidad (0.0 a 1.0)
+    flutterTts.setSpeechRate(0.5);
+    
+    // Configurar volumen (0.0 a 1.0)
+    flutterTts.setVolume(1.0);
+    
+    // Configurar tono (0.5 a 2.0)
+    flutterTts.setPitch(1.0);
+
+    // Listeners para controlar el estado
+    flutterTts.setStartHandler(() {
+      setState(() {
+        isSpeaking = true;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        isSpeaking = false;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        isSpeaking = false;
+      });
+      _showSimpleDialog(
+        context,
+        title: 'Error',
+        message: 'No se pudo reproducir el mensaje: $msg',
+      );
+    });
+  }
+
+  /// Lee el mensaje en voz alta
+  Future<void> _speakMessage() async {
+    if (messageParts.isEmpty) {
+      _showSimpleDialog(
+        context,
+        title: 'Sin mensaje',
+        message: 'No hay mensaje para leer.',
+      );
+      return;
+    }
+
+    if (isSpeaking) {
+      // Si ya está hablando, detener
+      await flutterTts.stop();
+      return;
+    }
+
+    // Construir el mensaje a leer
+    String messageToSpeak = messageParts
+        .map((part) => part['text'] as String)
+        .join(' ');
+
+    await flutterTts.speak(messageToSpeak);
   }
 
   @override
@@ -78,24 +168,6 @@ class _MessagePageState extends State<MessagePage> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: const Text(
-              'BACK',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -132,6 +204,8 @@ class _MessagePageState extends State<MessagePage> {
                       _buildCategoryButton('Acciones', const Color(0xFFB39DDB)),
                       const SizedBox(width: 8),
                       _buildCategoryButton('Emociones', const Color(0xFFE1BEE7)),
+                      const SizedBox(width: 8),
+                      _buildCategoryButton('Verbos', const Color(0xFF9C27B0)),
                     ],
                   ),
                 ],
@@ -233,25 +307,31 @@ class _MessagePageState extends State<MessagePage> {
                 // LEER ------------
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      _showSimpleDialog(
-                        context,
-                        title: 'Leyendo en voz alta',
-                        message: 'El mensaje se está reproduciendo.',
-                      );
-                    },
+                    onPressed: _speakMessage,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4CAF50),
+                      backgroundColor: isSpeaking 
+                          ? const Color(0xFFFF9800) 
+                          : const Color(0xFF4CAF50),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    child: const Text(
-                      'Leer',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          isSpeaking ? Icons.stop : Icons.volume_up,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isSpeaking ? 'Detener' : 'Leer',
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -435,6 +515,8 @@ class _MessagePageState extends State<MessagePage> {
       case 'Acciones':
         return const Color(0xFFB39DDB);
       case 'Emociones':
+      case 'Verbos':
+        return const Color(0xFF9C27B0);
       default:
         return const Color(0xFFE1BEE7);
     }
@@ -487,6 +569,7 @@ class SentMessagePage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
+          
         ),
       ),
       body: Padding(
